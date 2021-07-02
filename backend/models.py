@@ -1,5 +1,6 @@
-from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from .database import Base
+from sqlalchemy.orm import relationship
 
 
 class Item(Base):
@@ -8,3 +9,17 @@ class Item(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     desc = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    user = relationship("User", back_populates="items")
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String)
+    password = Column(String)
+    email = Column(String)
+
+    items = relationship("Item", back_populates="user")
