@@ -1,10 +1,9 @@
-
 from backend import models
 from sqlalchemy.orm.session import Session
 from fastapi import HTTPException, status
 
 
-def get_all(db: Session):
+def get_all(db: Session,):
     items = db.query(models.Item).all()
     return items
 

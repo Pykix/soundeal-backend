@@ -1,3 +1,4 @@
+from backend import oauth2
 from backend.repository import item
 from backend import database
 from backend import schemas
@@ -11,8 +12,11 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=List[schemas.ShowItem])
-def all_items(db: Session = Depends(database.get_db)):
+@router.get("/",
+
+            response_model=List[schemas.ShowItem])
+def all_items(db: Session = Depends(database.get_db),
+              get_current_user: schemas.User = Depends(oauth2.get_current_user)):
     """Return all items
 
     Args:
