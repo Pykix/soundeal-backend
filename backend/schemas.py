@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 
@@ -22,7 +23,13 @@ class ShowUser(BaseModel):
 class Item(BaseModel):
     title: str
     desc: str
-    user_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class ShowUserWithOffer(ShowUser):
+    items: List[Item]
 
     class Config:
         orm_mode = True
