@@ -14,9 +14,8 @@ router = APIRouter(
 
 @router.get("/",
 
-            response_model=List[schemas.ShowItem])
-def all_items(db: Session = Depends(database.get_db),
-              get_current_user: schemas.User = Depends(oauth2.get_current_user)):
+            response_model=List[schemas.Item])
+async def all_items(db: Session = Depends(database.get_db)):
     """Return all items
 
     Args:
@@ -26,6 +25,21 @@ def all_items(db: Session = Depends(database.get_db),
         Item: Music Instrument
     """
     items = item.get_all(db)
+    return items
+
+
+@router.get("/category/{id}",
+            response_model=List[schemas.Item])
+async def all_category_items(id: int, db: Session = Depends(database.get_db)):
+    """Return all items
+
+    Args:
+        db (Session, optional): Database Session
+
+    Returns:
+        Item: Music Instrument
+    """
+    items = await item.get_all_in_category(id, db)
     return items
 
 

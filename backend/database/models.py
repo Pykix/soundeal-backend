@@ -17,10 +17,11 @@ class Item(Base):
     __tablename__ = "items"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    desc = Column(String)
+    title = Column(String, nullable=False)
+    description = Column(String)
     state = Column(String)
-    price = Column(Integer)
+    price = Column(Integer, nullable=False)
+    age = Column(Integer)
 
     user_id = Column(Integer, ForeignKey("users.id"))
     type_id = Column(Integer, ForeignKey("instrument_type.id"))
@@ -35,6 +36,6 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
     password = Column(String)
-    email = Column(String)
+    email = Column(String, unique=True)
 
     items = relationship("Item", back_populates="user")

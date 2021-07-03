@@ -21,8 +21,14 @@ class ShowUser(BaseModel):
 
 
 class Item(BaseModel):
+
     title: str
-    desc: str
+    description: str
+    state: str
+    price: int
+    age: int
+    user_id: int
+    type_id: int
 
     class Config:
         orm_mode = True
@@ -54,3 +60,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+
+class ChangePassword(BaseModel):
+    password: str
