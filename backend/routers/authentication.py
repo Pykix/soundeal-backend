@@ -1,14 +1,15 @@
 
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-from backend.jwttoken import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
+from backend.authentication.jwttoken import ACCESS_TOKEN_EXPIRE_MINUTES
+from backend.authentication.jwttoken import create_access_token
 from datetime import timedelta
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Depends
 from sqlalchemy.orm.session import Session
-from backend.hashing import Hash
-from backend import models
+from backend.authentication.hashing import Hash
+from backend.database import models
 from fastapi import APIRouter, status
-from backend import database
+from backend.database import database
 
 router = APIRouter(
     tags=['Authentication']

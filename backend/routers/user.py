@@ -1,6 +1,5 @@
-import re
-from backend import schemas
-from backend import database
+from backend.database import schemas
+from backend.database import database
 from backend.repository import user
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session

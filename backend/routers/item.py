@@ -1,7 +1,7 @@
-from backend import oauth2
+from backend.authentication import oauth2
 from backend.repository import item
-from backend import database
-from backend import schemas
+from backend.database import database
+from backend.database import schemas
 from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session

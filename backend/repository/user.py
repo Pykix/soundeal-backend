@@ -1,8 +1,8 @@
 from fastapi.exceptions import HTTPException
 from starlette import status
-from backend import models
+from backend.database import models
 from sqlalchemy.orm.session import Session
-from backend.hashing import Hash
+from backend.authentication.hashing import Hash
 
 
 def create(request, db: Session):
