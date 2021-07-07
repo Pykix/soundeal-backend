@@ -23,14 +23,20 @@ async def get_all_in_category(id, db: Session):
     return items
 
 
-async def create(request, user_id, db: Session):
+async def get_all_user_items(id, db: Session):
+    items = db.query(models.Item).filter(models.Item.user_id == id).all()
+    return items
+
+
+def create(request, db: Session):
     new_item = models.Item(
         title=request.title,
         description=request.description,
-        user_id=user_id,
         price=request.price,
         state=request.state,
-        age=request.age
+        age=request.age,
+        user_id=request.user_id,
+        type_id=request.type_id
     )
     db.add(new_item)
     db.commit()

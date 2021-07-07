@@ -58,10 +58,17 @@ async def read_item(id: int, db: Session = Depends(database.get_db)):
     return item.get(id, db)
 
 
+@router.get('/my-item/{user_id}', status_code=status.HTTP_200_OK,
+            response_model=List[schemas.Item])
+async def all_user_items(user_id: int, db: Session = Depends(database.get_db)):
+    items = await item.get_all_user_items(user_id, db)
+    return items
+
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def create_item(request: schemas.Item, user_id: int,
+async def create_item(request: schemas.ItemWhithoutId,
                       db: Session = Depends(database.get_db)):
-    return item.create(request, user_id, db)
+    return item.create(request, db)
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)

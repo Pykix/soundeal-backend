@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 
-@router.post('/')
+@router.post('/new-user')
 def create_user(request: schemas.User,
                 db: Session = Depends(database.get_db)):
     return user.create(request, db)
@@ -22,7 +22,7 @@ def show_user(id: int, db: Session = Depends(database.get_db)):
 
 
 @router.put('/{id}')
-def update_user(id: int, request: schemas.ChangePassword,
-                db: Session = Depends(database.get_db),
-                permission: schemas.User = Depends(oauth2.permission_to_show)):
+def update_user_password(id: int, request: schemas.ChangePassword,
+                         db: Session = Depends(database.get_db),
+                         permission: schemas.User = Depends(oauth2.permission_to_show)):
     return user.password_update(id, request, db)

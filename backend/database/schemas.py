@@ -21,7 +21,20 @@ class ShowUser(BaseModel):
 
 
 class Item(BaseModel):
+    id: int
+    title: str
+    description: str
+    state: str
+    price: int
+    age: int
+    user_id: int
+    type_id: int
 
+    class Config:
+        orm_mode = True
+
+
+class ItemWhithoutId(BaseModel):
     title: str
     description: str
     state: str
