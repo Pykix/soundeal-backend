@@ -20,6 +20,14 @@ class ShowUser(BaseModel):
         orm_mode = True
 
 
+class Type(BaseModel):
+    id: int
+    type: str
+
+    class Config:
+        orm_mode = True
+
+
 class Item(BaseModel):
     id: int
     title: str
@@ -32,6 +40,15 @@ class Item(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ItemAdd(BaseModel):
+    title: str
+    description: str
+    state: str
+    price: int
+    age: int
+    type: Type
 
 
 class ItemWhithoutId(BaseModel):

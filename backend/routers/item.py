@@ -1,3 +1,4 @@
+from logging import DEBUG
 from backend.authentication import oauth2
 from backend.repository import item
 from backend.database import database
@@ -26,6 +27,12 @@ async def all_items(db: Session = Depends(database.get_db)):
     """
     items = item.get_all(db)
     return items
+
+
+@router.get('/category', response_model=List[schemas.Type])
+async def all_categories(db: Session = Depends(database.get_db)):
+    categories = await item.get_all_categories(db)
+    return categories
 
 
 @router.get("/category/{id}",
@@ -66,7 +73,7 @@ async def all_user_items(user_id: int, db: Session = Depends(database.get_db)):
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def create_item(request: schemas.ItemWhithoutId,
+async def create_item(request: schemas.ItemAdd,
                       db: Session = Depends(database.get_db)):
     return item.create(request, db)
 

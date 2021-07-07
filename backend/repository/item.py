@@ -1,3 +1,4 @@
+from sqlalchemy.sql.functions import mode
 from backend.database import models
 from sqlalchemy.orm.session import Session
 from fastapi import HTTPException, status
@@ -16,6 +17,11 @@ def get(id, db):
             status_code=status.HTTP_404_NOT_FOUND, detail=f"id {id} Not found")
 
     return item
+
+
+async def get_all_categories(db: Session):
+    categories = db.query(models.InstrumentType).all()
+    return categories
 
 
 async def get_all_in_category(id, db: Session):
