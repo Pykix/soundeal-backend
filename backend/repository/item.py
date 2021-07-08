@@ -35,6 +35,8 @@ async def get_all_user_items(id, db: Session):
 
 
 def create(request, db: Session):
+    type = db.query(models.InstrumentType).filter(
+        models.InstrumentType.type == request.type).first()
     new_item = models.Item(
         title=request.title,
         description=request.description,
@@ -42,7 +44,7 @@ def create(request, db: Session):
         state=request.state,
         age=request.age,
         user_id=request.user_id,
-        type_id=request.type_id
+        type_id=type.id
     )
     db.add(new_item)
     db.commit()

@@ -50,7 +50,11 @@ class ItemAdd(BaseModel):
     state: str
     price: int
     age: int
-    type: Type
+    user_id: int
+    type: str
+
+    class Config:
+        orm_mode = True
 
 
 class ItemWhithoutId(BaseModel):
