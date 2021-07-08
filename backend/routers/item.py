@@ -1,11 +1,18 @@
 from logging import DEBUG
+import os
+import base64
+import shutil
+from fastapi.datastructures import UploadFile
+from sqlalchemy.sql.operators import op
 from backend.authentication import oauth2
 from backend.repository import item
 from backend.database import database
 from backend.database import schemas
 from typing import List
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Response, File
 from sqlalchemy.orm import Session
+from fastapi.responses import FileResponse
+from starlette.staticfiles import StaticFiles
 
 router = APIRouter(
     prefix="/item",
@@ -14,7 +21,6 @@ router = APIRouter(
 
 
 @router.get("/",
-
             response_model=List[schemas.Item])
 async def all_items(db: Session = Depends(database.get_db)):
     """Return all items
@@ -88,3 +94,11 @@ def update_item(id: int,
                 request: schemas.Item,
                 db: Session = Depends(database.get_db)):
     return item.update(id, request, db)
+
+
+@router.post('/picture')
+def picture(uploaded_file: UploadFile = File(...)):
+
+    with open(f"assets/images/{uploaded_file.filename}", "wb") as file_object:
+        shutil.copyfileobj(uploaded_file.file, file_object)
+    return {"filename": uploaded_file.filename}

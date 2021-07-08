@@ -23,6 +23,7 @@ class ShowUser(BaseModel):
 class Type(BaseModel):
     id: int
     type: str
+    picture: str
 
     class Config:
         orm_mode = True
