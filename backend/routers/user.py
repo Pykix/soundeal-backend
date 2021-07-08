@@ -17,12 +17,15 @@ def create_user(request: schemas.User,
 
 
 @router.get('/{id}', response_model=schemas.ShowUserWithOffer)
-def show_user(id: int, db: Session = Depends(database.get_db)):
+def show_user(id: int, db: Session = Depends(database.get_db),
+              permission:
+              schemas.User = Depends(oauth2.permission_to_show)):
     return user.get(id, db)
 
 
 @router.put('/{id}')
 def update_user_password(id: int, request: schemas.ChangePassword,
                          db: Session = Depends(database.get_db),
-                         permission: schemas.User = Depends(oauth2.permission_to_show)):
+                         permission:
+                         schemas.User = Depends(oauth2.permission_to_show)):
     return user.password_update(id, request, db)

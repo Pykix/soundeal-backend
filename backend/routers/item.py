@@ -80,19 +80,25 @@ async def all_user_items(user_id: int, db: Session = Depends(database.get_db)):
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def create_item(request: schemas.ItemAdd,
-                      db: Session = Depends(database.get_db)):
+                      db: Session = Depends(database.get_db),
+                      permission:
+                      schemas.User = Depends(oauth2.permission_to_show)):
     return item.create(request, db)
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_item(id: int, db: Session = Depends(database.get_db)):
+async def delete_item(id: int, db: Session = Depends(database.get_db),
+                      permission:
+                      schemas.User = Depends(oauth2.permission_to_show)):
     return item.delete(id, db)
 
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 def update_item(id: int,
                 request: schemas.Item,
-                db: Session = Depends(database.get_db)):
+                db: Session = Depends(database.get_db),
+                permission:
+                schemas.User = Depends(oauth2.permission_to_show)):
     return item.update(id, request, db)
 
 
