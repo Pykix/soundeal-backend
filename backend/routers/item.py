@@ -74,6 +74,15 @@ async def read_item(id: int, db: Session = Depends(database.get_db)):
 @router.get('/my-item/{user_id}', status_code=status.HTTP_200_OK,
             response_model=List[schemas.Item])
 async def all_user_items(user_id: int, db: Session = Depends(database.get_db)):
+    """Return the current user item
+
+    Args:
+        user_id (int): user_id
+        db (Session, optional): database session. Defaults to Depends(database.get_db).
+
+    Returns:
+        List: item
+    """
     items = await item.get_all_user_items(user_id, db)
     return items
 
@@ -83,6 +92,16 @@ async def create_item(request: schemas.ItemAdd,
                       db: Session = Depends(database.get_db),
                       permission:
                       schemas.User = Depends(oauth2.permission_to_show)):
+    """create an item
+
+    Args:
+        request (schemas.ItemAdd): 
+        db (Session, optional): . Defaults to Depends(database.get_db).
+        permission (schemas.User, optional): . Defaults to Depends(oauth2.permission_to_show).
+
+    Returns:
+        Item: new created item
+    """
     return item.create(request, db)
 
 
@@ -90,6 +109,16 @@ async def create_item(request: schemas.ItemAdd,
 async def delete_item(id: int, db: Session = Depends(database.get_db),
                       permission:
                       schemas.User = Depends(oauth2.permission_to_show)):
+    """Delete an item
+
+    Args:
+        id (int): id
+        db (Session, optional):  Defaults to Depends(database.get_db).
+        permission (schemas.User, optional):  Defaults to Depends(oauth2.permission_to_show).
+
+    Returns:
+        StatusCode: 204
+    """
     return item.delete(id, db)
 
 
@@ -99,11 +128,30 @@ def update_item(id: int,
                 db: Session = Depends(database.get_db),
                 permission:
                 schemas.User = Depends(oauth2.permission_to_show)):
+    """update an item
+
+    Args:
+        id (int): id
+        request (schemas.Item): id
+        db (Session, optional):  Defaults to Depends(database.get_db).
+        permission (schemas.User, optional):  Defaults to Depends(oauth2.permission_to_show).
+
+    Returns:
+        Item: item updated
+    """
     return item.update(id, request, db)
 
 
 @router.post('/picture')
 def picture(uploaded_file: UploadFile = File(...)):
+    """upload picture
+
+    Args:
+        uploaded_file (UploadFile, optional):  Defaults to File(...).
+
+    Returns:
+        File: name of file
+    """
 
     with open(f"assets/images/{uploaded_file.filename}", "wb") as file_object:
         shutil.copyfileobj(uploaded_file.file, file_object)
